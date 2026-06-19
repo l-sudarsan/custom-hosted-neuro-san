@@ -18,3 +18,4 @@ _agent_create.json
 # OS / editor cruft
 .DS_Store
 Thumbs.db
+.vscode/
