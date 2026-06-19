@@ -1,0 +1,82 @@
+# Vendored neuro-san "hello_world" agent network.
+#
+# Schema reference:
+# https://github.com/cognizant-ai-lab/neuro-san/blob/main/docs/agent_hocon_reference.md
+#
+# The only change from the stock sample is "model_name", which points at the
+# custom "foundry-gpt" model defined in ../llm_info/foundry_llm_info.hocon.
+# That model uses passwordless (managed identity) auth against the Foundry
+# project's Azure OpenAI deployment.
+{
+    "metadata": {
+        "description": "Simple agent network consisting of two LLM-based agents."
+        "tags": ["example"],
+        "sample_queries": [
+            "From earth, I approach a new planet and wish to send a short 2-word greeting to the new orb.",
+            "Greet developers that wrote their very first program",
+        ]
+    },
+    "llm_config": {
+        "model_name": "foundry-gpt"
+    },
+    "tools": [
+        # The first agent is the "Front Man": it does all the talking to the
+        # outside world/client.
+        {
+            "name": "announcer",
+
+            # No parameters on the "function" key identifies this as the front-man.
+            "function": {
+                "description": """
+I can help you to make a terse announcement.
+Tell me what your target audience is, and what sentiment you would like to relate.
+"""
+            },
+
+            "instructions": """
+You are an author of terse announcements.
+You will be asked to help writing the shortest possible announcement on behalf of a person or organization.
+You will ascertain the intended sentiment of the desired announcement
+as well as who the target audience is for the announcement
+and come up with something as short as possible to express the sentiment to the audience,
+while never divulging the identity or nature of who has requested the announcement.
+Then, after you have come up with what to say, you will always call the synonymizer tool
+to make the announcement as simple and concise as possible, yet eloquent.
+Never add any embellishment or commentary to your answer.
+""",
+            "tools": ["synonymizer"]
+        },
+
+        # The synonymizer is the lowest level tool and does not call anyone else.
+        {
+            "name": "synonymizer",
+            "function": {
+                "description": "Returns sequences of synonyms.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "description": "A brief description of the input"
+                        },
+                        "input_string": {
+                            "type": "string",
+                            "description": "Words, phrases, or sentences to use as input"
+                        }
+                    },
+                    "required": ["input_string", "name"]
+                }
+            },
+            "instructions": """
+You are a thesaurus.
+You will be handed an arbitrary number of words in a particular order
+and for each word in the sequence, you will find a synonym for it that must only be 5 letters long.
+If no such synonym exists for a word in the sequence, only then may you simply use the original word.
+Your output will be words or phrases that match the original form and order of the input,
+except the synonyms will replace the original input words.
+There will be no elaboration or additional commentary.
+""",
+            "command": "Find a synonym string given the input_string"
+        }
+    ]
+}

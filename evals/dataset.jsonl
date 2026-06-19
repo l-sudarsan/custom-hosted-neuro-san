@@ -1,0 +1,8 @@
+{"query": "From earth, I approach a new planet and wish to send a short 2-word greeting to the new orb.", "expected_intent": "friendly first-contact greeting to a new world"}
+{"query": "Greet developers that wrote their very first program.", "expected_intent": "congratulatory welcome to new programmers"}
+{"query": "Announce to the whole office that free pizza has arrived in the kitchen.", "expected_intent": "cheerful food announcement to coworkers"}
+{"query": "Tell a departing colleague farewell in the warmest, shortest way possible.", "expected_intent": "warm goodbye to a leaving teammate"}
+{"query": "Warn hikers on a trail that a storm is approaching fast.", "expected_intent": "urgent safety warning to hikers"}
+{"query": "Congratulate a sports team that just won the championship.", "expected_intent": "celebratory praise to victorious athletes"}
+{"query": "Invite neighbors to a quiet evening book club.", "expected_intent": "calm friendly invitation to neighbors"}
+{"query": "Thank volunteers who cleaned up the community park.", "expected_intent": "grateful acknowledgement to volunteers"}

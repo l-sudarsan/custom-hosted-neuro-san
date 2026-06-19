@@ -1,0 +1,18 @@
+# Foundry Responses protocol adapter for hosted agents
+azure-ai-agentserver-responses==1.0.0b7
+
+# Passwordless auth (managed identity) + token refresh
+azure-identity>=1.19
+
+# Built-in Application Insights tracing via OpenTelemetry
+azure-monitor-opentelemetry>=1.6.0
+
+# neuro-san agent framework
+neuro-san>=0.6.0
+
+# Required explicitly: neuro-san lazy-installs this at runtime, which is not
+# reliable inside a read-only container. Pin it so the image is self-contained.
+langchain-openai>=0.2
+
+# Local .env loading for development (main.py imports load_dotenv)
+python-dotenv>=1.0

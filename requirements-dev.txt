@@ -1,0 +1,9 @@
+# Development-only dependencies (NOT installed into the agent container image).
+# Used by the local evaluation harness under evals/ and the sample client.py.
+
+# Quality evaluation harness (LLM-graded + custom evaluators)
+azure-ai-evaluation>=1.0.0
+
+# Direct agent + judge model invocation
+openai>=1.50
+azure-identity>=1.19

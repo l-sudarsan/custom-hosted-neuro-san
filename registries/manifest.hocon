@@ -1,0 +1,6 @@
+{
+    # Agent networks served by this hosted agent.
+    # The key is the .hocon file name (relative to this registries/ folder),
+    # the value enables it.
+    "hello_world.hocon": true
+}

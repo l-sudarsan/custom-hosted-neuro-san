@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/microsoft/AgentSchema/refs/heads/main/schemas/v1.0/ContainerAgent.yaml
+kind: hosted
+name: custom-hosted-neuro-san
+protocols:
+  - protocol: responses
+    version: 1.0.0
+resources:
+  # neuro-san + langchain is heavier than a thin proxy agent.
+  cpu: "1"
+  memory: 2Gi
+environment_variables:
+  # Azure OpenAI model deployment in your Foundry project.
+  - name: AZURE_AI_MODEL_DEPLOYMENT_NAME
+    value: ${AZURE_AI_MODEL_DEPLOYMENT_NAME}
+  # Azure OpenAI endpoint used for passwordless (managed identity) auth.
+  - name: AZURE_OPENAI_ENDPOINT
+    value: ${AZURE_OPENAI_ENDPOINT}
+  # Azure OpenAI API version.
+  - name: OPENAI_API_VERSION
+    value: ${OPENAI_API_VERSION}
+#
+# Do NOT set reserved variables here. The platform injects these automatically:
+#   FOUNDRY_*, AGENT_*, PORT, HOME, APPLICATIONINSIGHTS_CONNECTION_STRING,
+#   OTEL_EXPORTER_OTLP_ENDPOINT
+# neuro-san's own AGENT_MANIFEST_FILE / AGENT_TOOL_PATH / AGENT_LLM_INFO_FILE are
+# set in-process by main.py (the AGENT_* prefix is reserved here).

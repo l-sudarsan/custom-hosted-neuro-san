@@ -1,0 +1,45 @@
+# Custom LLM info that extends neuro-san's stock default_llm_info.hocon.
+#
+# AGENT_LLM_INFO_FILE points here (set in main.py). neuro-san MERGES this over
+# the built-in defaults, so the stock "azure-openai" class definition remains
+# available; we only add a new model alias and register a custom factory.
+{
+    # New model name usable in an agent network's "llm_config".
+    "foundry-gpt": {
+        # Custom class name that ONLY our FoundryLlmFactory knows. The stock
+        # factory runs first, does not recognize this class, raises a plain
+        # ValueError, and neuro-san falls through to our passwordless factory.
+        "class": "azure-openai-passwordless",
+
+        # Alias used only for tokenizer/token-accounting purposes. Set this to
+        # match the family of the model you deployed in Foundry.
+        "use_model_name": "gpt-4o",
+
+        "modalities": {
+            "input": ["text"],
+            "output": ["text"]
+        },
+
+        # "tools" capability is required: neuro-san's front-man calls the
+        # synonymizer tool, which needs a tool-using model.
+        "capabilities": ["tools"],
+
+        "context_window_size": 128000,
+        "max_output_tokens": 16384
+    },
+
+    "classes": {
+        # Define the custom class so neuro-san can resolve its default args.
+        # "extends" pulls in all the stock "azure-openai" args (endpoint,
+        # deployment, api_version, etc.) so we don't have to repeat them.
+        "azure-openai-passwordless": {
+            "extends": "azure-openai"
+        },
+
+        # Register a custom factory that supplies a passwordless azure-openai
+        # LlmPolicy. Must be importable on PYTHONPATH and have a no-arg ctor.
+        "factories": [
+            "foundry_llm.foundry_llm_factory.FoundryLlmFactory"
+        ]
+    }
+}

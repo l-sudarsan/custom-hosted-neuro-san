@@ -1,0 +1,20 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# Generated evaluation artifacts (regenerable via `python evals/evaluate.py`)
+evals/results/
+
+# Temp Azure connection payloads (may contain resource IDs)
+_storage_conn.json
+_agent_create.json
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
